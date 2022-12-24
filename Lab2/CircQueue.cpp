@@ -1,4 +1,5 @@
 #include <iostream>
+#include<cstdlib>
 using namespace std;
 class QueueOverFlow
 {
@@ -11,62 +12,78 @@ class CircQueue
 {
 private:
     int front{}, rear{};
-    T arr[30];
+    T arr[30]{};
 
 public:
-    Queue()
+    CircQueue()
     {
         front = -1;
         rear = -1;
     }
     void enqueue(T data)
     {
-        if (front == rear == -1)
+        if (front ==-1 &&rear == -1)
         {
-            front++;
-            arr[++rear] = data;
+            front = 0;
+            rear =0;
+            arr[rear] = data;
+            cout<<arr[rear]<<endl;
         }
         else if (rear == 29)
         {
-            if(arr[0]!=NULL)
+            if(front!=0)
             {
-            throw QueueOverFlow{};
-            }
             rear =0;
+            arr[rear] = data;
+            cout<<arr[rear]<<endl;
+            }
+            else{
+            throw QueueOverFlow{};
+
+        }
         }
         else
         {
-            arr[++rear] = data;
+            rear++;
+            arr[rear] = data;
+            cout<<arr[rear]<<endl;
         }
     }
     T dequeue()
     {   if (front ==29)
     {
         front =0;
+        
     }
     
         if(front>rear|| rear ==-1)
         {
             throw QueueUnderFlow{};
         }
-        temp = arr[front];
-        arr[front] = NULL;
-
-        return temp;;
+        
+     return arr[front++];
     }
 
 };
 int main()
 {
     CircQueue<int>qt{};
+    cout<<"Insertation Phase\n";
     try{
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 28; i++)
     {
-       qt.enqueue(rand()%15);
+       qt.enqueue(rand()%20);
     }
-    for (int i = 0; i < 7; i++)
+    
+    cout<<"Deque Started\n";
+    for (int i = 0; i < 27; i++)
     {
       cout<< qt.dequeue()<<endl;
+    }
+     cout<<"Insertation Phase\n";
+    for (int i = 0; i < 27; i++)
+    {
+       qt.enqueue(rand()%15);
     }}
     catch(QueueOverFlow)
     {
